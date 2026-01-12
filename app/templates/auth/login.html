@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap | MTT RoboGeb</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/iconw.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <div class="sidebar" id="sidebar">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div id="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <div class="background-overlay"></div>
+            <div class="sidebar-content">
+                <img src="{{ url_for('static', filename='web/actlogotryout.png') }}" alt="ROBOGEB Logo" class="sidebar-logo">
+                <p>Tekrardan Hoş Geldiniz!</p>
+                <p class="tagline">Devam etmek için hesabınıza giriş yapın ve robotik yolculuğunuza başlayın.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/mttbilisimprojelisesi" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@kodadmtt1281" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/bilisimlisesi" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-area" id="form-area">
+            <h2>Hesabınıza Giriş Yapın</h2>
+            <form action="{{ url_for('auth.login') }}" method="POST">
+                <div class="input-field">
+                    <input type="text" name="email" placeholder="E-posta" required>
+                    <i class="fas fa-envelope icon-right"></i>
+                </div>
+
+                <div class="input-field">
+                    <input type="password" name="password" placeholder="Şifre" autocomplete="new-password" required>
+                    <i class="fas fa-eye-slash icon-right toggle-password"></i>
+                </div>
+
+                <div class="other-links">
+                    <a href="#">Şifremi Unuttum</a>
+                    <a href="{{ url_for('auth.register') }}">Hesabın yok mu? Kayıt Ol</a> 
+                </div>
+
+                <button type="submit" class="submit-button">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+
+        window.onload = function() {
+            document.getElementById('sidebar').classList.add('animated');
+            document.getElementById('form-area').classList.add('animated');
+        };
+
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+
+                const input = this.previousElementSibling; 
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                }
+            });
+        });
+
+        function handleFlashMessages(delaySeconds) {
+            const flashContainer = document.getElementById('flash-container');
+            if (flashContainer) {
+                setTimeout(() => {
+                    flashContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        flashContainer.remove();
+                    }, 500);
+                }, delaySeconds * 1000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            handleFlashMessages(5);
+        });
+    </script>
+</body>
+</html>
