@@ -3,7 +3,10 @@ from functools import wraps
 import locale
 import os
 
-locale.setlocale(locale.LC_ALL, 'tr_TR.UTF-8')
+try:
+    locale.setlocale(locale.LC_ALL, 'tr_TR.UTF-8')
+except locale.Error:
+    locale.setlocale(locale.LC_ALL, '')
 
 def turkish_datetime(value):
     if not value:
