@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Hakkımızda{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/aboutus.css') }}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="hero-section reveal">
+        <div class="container">
+            <h1>HAKKIMIZDA</h1>
+            <p>ROBOGEB: Geleceğin Teknolojisi, Bugünün Gençleriyle Buluşuyor.</p>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <section class="info-grid">
+            <div class="info-card reveal">
+                <h2>Vizyonumuz</h2>
+                <p>Türkiye'nin teknoloji ve robotik alanındaki genç yeteneklerini keşfetmek, onlara ilham vermek ve küresel düzeyde rekabet edebilecekleri bir platform sunarak ülkenin bilim ve teknoloji geleceğine yön vermektir.</p>
+                <a class="btn" href="error503.html">Detaylı Oku</a>
+            </div>
+            
+            <div class="info-card reveal">
+                <h2>Misyonumuz</h2>
+                <p>Lise ve ortaokul öğrencilerini robotik, kodlama ve mühendislik alanlarında uygulamalı deneyimler kazanmaya teşvik etmek, takım çalışması becerilerini geliştirmek ve yaratıcılıklarını en üst seviyeye taşımaktır.</p>
+                <a class="btn" href="error503.html">Detaylı Oku</a>
+            </div>
+        </section>
+
+        <section class="timeline">
+            <h2 class="section-title reveal">ROBOGEB'İN TARİHÇESİ</h2>
+            
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <span class="date">2025</span>
+                    <h3>Kuruluş ve İlk Adımlar</h3>
+                    <p>Mehmet Tuğrul Tekbulut MTAL bünyesinde ilk Robotik Kulübü kuruldu ve yerel turnuvalara katılım başladı.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <span class="date">2025</span>
+                    <h3>ROBOGEB Markası Doğuyor</h3>
+                    <p>Okulun vizyonu doğrultusunda, daha büyük ve kapsamlı bir etkinlik için "ROBOGEB" adı altında ilk organizasyon planlandı ve hazırlıklar başladı.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <span class="date">2025</span>
+                    <h3>İlk Büyük Organizasyon</h3>
+                    <p>Bölgesel düzeyde ilk resmi ROBOGEB Robot Yarışması büyük bir katılımla gerçekleştirildi ve gelenekselleşme kararı alındı.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <span class="date">Bugün</span>
+                    <h3>Geleceğe Odaklanma</h3>
+                    <p>ROBOGEB, Türkiye'nin en büyük okul tabanlı robotik etkinliklerinden biri olma yolunda hızla ilerliyor ve yeni kategoriler ekleniyor.</p>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { 
+            if(e.isIntersecting) {
+                e.target.classList.add('active');
+                observer.unobserve(e.target); 
+            }
+        });
+    }, {threshold:0.15}); 
+    reveals.forEach(r => observer.observe(r));
+</script>
+{% endblock %}
