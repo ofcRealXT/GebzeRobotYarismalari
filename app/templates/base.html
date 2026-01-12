@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}{% endblock %} | MTT RoboGeb</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/iconw.ico') }}" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/iconb.ico') }}" type="image/x-icon" media="(prefers-color-scheme: light)">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainstyle.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <div class="container nav">
+            <div class="brand">
+                <a href="{{ url_for('home.homepage') }}"><img src="{{ url_for('static', filename='web/logob.png') }}" alt="logo"></a>
+                <div>
+                    <div style="font-weight:800; color:var(--primary)">Gebze Robot</div>
+                    <div style="font-size:12px; color:#666">
+                        Mehmet Tuğrul Tekbulut Mesleki Ve Teknik Anadolu Lisesi
+                    </div>
+                </div>
+            </div>
+
+            <nav aria-label="ana menü">
+                <ul>
+                    <li><a href="{{ url_for('home.aboutus') }}">HAKKIMIZDA</a></li>
+                    <li><a href="{{ url_for('home.competitions') }}">YARIŞLAR</a></li>
+                    <li><a href="{{ url_for('home.announcements') }}">DUYURULAR</a></li>
+                    <li><a href="{{ url_for('home.sss') }}">SSS</a></li>
+                    <li><a href="{{ url_for('home.contact') }}">İLETİŞİM</a></li>
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('profiles.profile_detail', user_id=current_user.id) }}">PROFİL</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role.value == "admin" %}
+                        <li><a href="{{ url_for('admin.dashboard') }}">ADMİN</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role.value == "participant" %}
+                        <li><a href="{{ url_for('team.dashboard') }}">TAKIM</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% if current_user.is_authenticated %}
+                <div><a class="btn" href="{{ url_for('auth.logout') }}">ÇIKIŞ</a></div>
+            {% else %}
+                <div><a class="btn" href="{{ url_for('auth.login') }}">GİRİŞ YAP</a></div>
+                <div><a class="btn" href="{{ url_for('auth.register') }}">KAYIT OL</a></div>
+            {% endif %}
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer id="iletisim" class="reveal">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>ROBOGEB</h3>
+                    <p style="color:rgba(255,255,255,0.9)">
+                        Mehmet Tuğrul Tekbulut MTAL resmi teknoloji etkinlikleri
+                    </p>
+                </div>
+
+                <div>
+                    <h4>Bağlantılar</h4>
+                    <div class="socials" style="display:flex; align-items:center; margin-top:8px">
+                        <a href="https://mehmettugrultekbulutmtal.meb.k12.tr/" target="_blank">
+                            <img src="{{ url_for('static', filename='web/okullogo.png') }}" alt="Mehmet Tugrul Tekbulut MTAL Logo">
+                        </a>
+                        <a href="https://www.meb.gov.tr/" target="_blank">
+                            <img src="{{ url_for('static', filename='web/meb.png') }}" alt="MEB Logo">
+                        </a>
+                        <a href="http://kocaeli.gov.tr/" target="_blank">
+                            <img src="{{ url_for('static', filename='web/kocaeli.png') }}" alt="Kocaeli Logo">
+                        </a>
+                        <a href="https://gebzeto.org.tr" target="_blank">
+                            <img src="{{ url_for('static', filename='web/gto.png') }}" alt="YouTube Logo">
+                        </a>
+                        <a href="https://instagram.com/mttbilisimprojelisesi" target="_blank">
+                            <img src="{{ url_for('static', filename='web/instalogo.png') }}" alt="Instagram Logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:18px; opacity:0.8">
+                © 2025 RoboGeb | Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/mainscript.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            handleFlashMessages(3);
+        })
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
