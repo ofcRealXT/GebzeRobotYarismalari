@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.firstname }} {{ user.lastname }} - Profil{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<img src="{{ url_for('static', filename=user.pfp) }}" height="100" width="100">
+<h1>{{ user.get_fullname() }}</h1>
+{% if current_user.id == user.id %}
+    <a href="{{ url_for('profiles.edit_profile') }}">Profilini düzenle</a>
+{% endif %}
+{% endblock %}
