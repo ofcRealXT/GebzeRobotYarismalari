@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Takım Kur{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/team_create.css') }}">
+<style>
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #0A7BC2;
+}
+
+.form-container input[type="text"],
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border 0.3s;
+}
+
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #0A7BC2;
+    outline: none;
+}
+
+.form-container button {
+    display: inline-block;
+    padding: 10px 16px;
+    margin: 5px 0;
+    background-color: #0A7BC2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.form-container button:hover {
+    background-color: #065a8c;
+    transform: translateY(-2px);
+}
+
+.edc-container {
+    margin-top: 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Takım Kur</h2>
+
+    <form action="{{ url_for('team.create') }}" method="post">
+
+        <input type="text" name="name" placeholder="Takım Adı" required>
+
+        <textarea name="description" placeholder="Takım Tanıtım Metni" rows="3" required></textarea>
+
+        <select name="your_role" id="your_role">
+            <option disabled selected>Rolünüzü Seçin</option>
+            <option value="captain">Kaptan Öğrenci</option>
+            <option value="mentor">Danışman Öğretmen</option>
+        </select>
+
+        <div class="edc-container">
+            <h4>Takımın Okul Bilgileri</h4>
+
+            <select name="edc_level" id="edc_level" required>
+                <option disabled selected>Eğitim Seviyesi Seçin</option>
+                <option value="primary">İlkokul</option>
+                <option value="secondary">Ortaokul</option>
+                <option value="highschool">Lise</option>
+            </select>
+
+            <select name="school" id="school" required></select>
+        </div>
+
+        <button type="submit">Takımı Oluştur</button>
+    </form>
+</div>
+
+<script>
+document.getElementById("edc_level").addEventListener("change", function () {
+    const level = this.value;
+    const schoolSelect = document.getElementById("school");
+
+    schoolSelect.innerHTML = "";
+
+    let filePath = null;
+
+    switch (level) {
+        case "primary":
+            filePath = "{{ url_for('static', filename='data/ilkokul.json') }}";
+            break;
+        case "secondary":
+            filePath = "{{ url_for('static', filename='data/ortaokul.json') }}";
+            break;
+        case "highschool":
+            filePath = "{{ url_for('static', filename='data/lise.json') }}";
+            break;
+        default:
+            return;
+    }
+
+    fetch(filePath)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(school => {
+                const opt = document.createElement("option");
+                opt.value = school;
+                opt.textContent = school;
+                schoolSelect.appendChild(opt);
+            });
+        })
+        .catch(err => console.error("Okullar yüklenemedi:", err));
+});
+</script>
+{% endblock %}
