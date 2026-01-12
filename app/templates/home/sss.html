@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Sıkça Sorulan Sorular{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sss.css') }}">
+{% endblock %}
+
+{% block content %}
+  <main class="container">
+    <section class="sss-section reveal">
+        <h1 class="sss-header">EN ÇOK SORULAN SORULAR</h1>
+
+        <div class="faq-container">
+            
+            <div class="faq-item active">
+                <button class="faq-question">ROBOGEB Projesine nasıl katılabilirim?</button>
+                <div class="faq-answer">
+                    <p>ROBOGEB Robotik Kodlama Projesi 2023 yılı itibariyle 325 okul ve 5 yetişkin eğitim merkezinde hizmet vermektedir. Sitemizde bu merkezlerin yerini görebilirsiniz. Okullar sadece kayıtlı öğrencilerine hizmet vermekte olup yetişkin eğitim merkezlerinde açılan atölye ve eğitimlere katılabilirsiniz. Bütün eğitimler ücretsizdir.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Yarışmalara katılmak için bir ücret alınıyor mu?</button>
+                <div class="faq-answer">
+                    <p>Hayır, ROBOGEB yarışmalarına katılmak tamamen ücretsizdir ve herhangi bir katılım ücreti talep edilmemektedir.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB Robotik Kodlama atölyesine çocuğumu gönderebilir miyim?</button>
+                <div class="faq-answer">
+                    <p>Evet, ROBOGEB Robotik Kodlama Projesi kurulu olan okulların kayıtlı öğrencileri bu atölyelerden ücretsiz olarak eğitim alabilirler. Yetişkin eğitim merkezlerini de kontrol edebilirsiniz.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB Projesi Eğitmen eğitimine nasıl katılırım?</button>
+                <div class="faq-answer">
+                    <p>Proje kapsamında atölye kurulumu tamamlanan okulların MEB tarafından belirlenen öğretmenlerine eğitim verilmektedir. Ayrıca, Ko-mek kurs merkezlerinde bulunan yetişkin eğitiminden de faydalanabilirsiniz.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Okulumda ROBOGEB Robotik Kodlama Projesi yok nasıl kurdurabilirim?</button>
+                <div class="faq-answer">
+                    <p>Okulunuzun ROBOGEB projesine dahil edilmesi için okul yönetiminiz aracılığıyla İl/İlçe Milli Eğitim Müdürlüğünüz ile iletişime geçebilirsiniz. Projenin yaygınlaştırılması devam etmektedir.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB yarışmalarına katılabilir miyim?</button>
+                <div class="faq-answer">
+                    <p>ROBOGEB atölyelerinin kurulu olduğu her okul yarışmalarımızın doğal katılımcısıdır. Atölyelerimizin olmadığı okullar, ROBOGEB yarışmalarının diğer kategorilerinin şartlarını sağlıyorlarsa (örneğin lise öğrencisi olmak gibi) web sitemiz üzerinden başvuru yapabilirler.</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {threshold: 0.15});
+    
+    reveals.forEach(function(r) {
+        observer.observe(r);
+    });
+
+    const faqButtons = document.querySelectorAll('.faq-question');
+    faqButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const item = this.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const wasActive = item.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(function(i) {
+                i.classList.remove('active');
+                const a = i.querySelector('.faq-answer');
+                if(a) {
+                    a.style.maxHeight = "0";
+                }
+            });
+
+            if (!wasActive) {
+                item.classList.add('active');
+                if(answer) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                }
+            }
+        });
+    });
+
+    const firstItem = document.querySelector('.faq-item.active');
+    if (firstItem) {
+        const answer = firstItem.querySelector('.faq-answer');
+        if(answer) {
+            answer.style.transition = 'none';
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            setTimeout(function() {
+                answer.style.transition = 'max-height 0.4s ease-out, padding 0.4s ease-out';
+            }, 10);
+        }
+    }
+});
+</script>
+{% endblock %}
