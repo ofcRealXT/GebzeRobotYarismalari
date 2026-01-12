@@ -3,9 +3,8 @@ import os
 
 app = create_app()
 
-if os.getenv("RENDER") is None:
-    with app.app_context():
-        db.create_all()
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run()
