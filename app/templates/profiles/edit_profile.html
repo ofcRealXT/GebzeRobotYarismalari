@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Profili Düzenle{% endblock %}
+
+{% block head %}
+<style>
+    .form-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-group input[type="file"],
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Profili Düzenle</h2>
+    <form action="{{ url_for('profiles.edit_profile') }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="pfp">Profil Fotoğrafı:</label>
+            <input type="file" name="pfp" id="pfp" accept=".jpg,.jpeg,.png,.gif">
+        </div>
+
+        <div class="form-group">
+            <label for="bio">Biyografi:</label>
+            <textarea name="bio" id="bio" rows="4" placeholder="Biyografinizi yazın...">{{ current_user.bio if current_user.bio else "" }}</textarea>
+        </div>
+
+        <button type="submit">Kaydet</button>
+    </form>
+</div>
+{% endblock %}
