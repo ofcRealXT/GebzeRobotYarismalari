@@ -1,0 +1,62 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}Kategoriler{% endblock %}
+
+{% block head %}
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<ul>
+    {% for ct in cts %}
+        <li>
+            <span>{{ ct.name }}</span>
+            <a class="btn btn-danger" href="{{ url_for('admin.remove_ct', ct_id=ct.id) }}">Kaldır</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<a class="btn btn-primary" href="{{ url_for('admin.add_ct') }}">Yeni Kategori</a>
+{% endblock %}
