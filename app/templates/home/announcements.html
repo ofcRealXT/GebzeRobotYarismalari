@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Duyurular{% endblock %}
+
+{% block head %}
+<style>
+    .announcements-layout {display: grid;grid-template-columns: 1fr 2.5fr; gap: 30px;padding: 40px 0;}
+
+    .announcements-list {display: flex;flex-direction: column;gap: 10px;}
+
+    .announcement-item {padding: 15px;border-radius: 10px;background: #f9fbfd;border-left: 5px solid var(--primary);cursor: pointer;transition: all 0.3s ease;box-shadow: 0 2px 8px rgba(0,0,0,0.05);}
+
+    .announcement-item:hover {background: #eaf6ff;transform: translateY(-2px);box-shadow: 0 4px 12px rgba(0,0,0,0.1);}
+
+    .announcement-item.active {background: var(--primary);color: white;border-left: 5px solid var(--dark);box-shadow: 0 4px 12px rgba(10,123,194,0.3);}
+
+    .announcement-item h4 {font-size: 17px;margin-bottom: 4px;color: var(--dark);transition: color 0.3s;}
+
+    .announcement-item.active h4 {color: white;}
+
+    .announcement-item p {font-size: 13px;color: #666;transition: color 0.3s;}
+
+    .announcement-item.active p {color: rgba(255, 255, 255, 0.9);}
+
+    .announcement-detail {background: white;padding: 25px;border-radius: 12px;box-shadow: 0 4px 15px rgba(0,0,0,0.1);border-top: 5px solid var(--dark);min-height: 400px;}
+
+    .detail-image {width: 100%;max-height: 250px;object-fit: cover;border-radius: 8px;margin-bottom: 20px;}
+
+    .detail-title {font-size: 24px;color: var(--dark);margin-bottom: 10px;}
+
+    .detail-date {font-size: 14px;color: #888;margin-bottom: 20px;display: block;border-bottom: 1px dashed #eee;padding-bottom: 10px;}
+
+    .detail-content {line-height: 1.6;color: #333;}
+
+    @media (max-width: 900px) {
+      .announcements-layout {
+        grid-template-columns: 1fr;
+        padding: 20px 0;
+      }
+      .announcement-detail {
+        min-height: auto;
+      }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+  <main class="container">
+    <h1 style="text-align:center;color:var(--dark);padding:30px 0;font-size:32px;" class="reveal">Tüm Duyurularımız</h1>
+
+    <div class="announcements-layout reveal">
+      <div class="announcements-list" id="announcementsList">
+        </div>
+
+      <div class="announcement-detail" id="announcementDetail">
+        <h2 style="color: #666; text-align: center; margin-top: 100px;">Detayları görmek için listeden bir duyuru seçin.</h2>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+    }, {threshold:0.15});
+    reveals.forEach(r => observer.observe(r));
+
+    const announcementsData = [
+        {
+            id: 'basvuru',
+            title: 'ROBOGEB 2026 Başvuruları Başladı',
+            date: '11 Eylül 2025',
+            summary: '11 Eylül 2025 tarihinde başvurular açıldı...',
+            image: 'images/catimage.jpg',
+            content: 'ROBOGEB 2026 yarışmaları için başvurular resmen başlamıştır. Tüm lise ve dengi okul öğrencileri belirlenen kategorilerde takımlarını kurarak 11 Eylül 2025 - 1 Mart 2026 tarihleri arasında başvurularını online olarak tamamlayabilirler. Detaylı bilgi ve şartname için Yarışma Kılavuzu bölümümüzü ziyaret ediniz.'
+        },
+        {
+            id: 'yapayzeka',
+            title: 'Yeni Atölye: Yapay Zeka Günü',
+            date: '05 Aralık 2025',
+            summary: 'Öğrenciler için özel hazırlanan atölye etkinliği 5 Aralık\'ta yapılacak.',
+            image: 'images/wwp1.png',
+            content: 'Geleceğin teknolojisi yapay zeka alanında, lise öğrencilerine yönelik **"Yapay Zeka Günü Atölyesi"** 5 Aralık 2025 Perşembe günü saat 10:00 - 15:00 arasında okulumuz laboratuvarında yapılacaktır. Etkinliğe katılım kontenjanla sınırlıdır. Başvuru detayları için en kısa sürede web sitemizi kontrol ediniz.'
+        },
+        {
+            id: 'tanitim',
+            title: 'Okul Tanıtım Günleri',
+            date: '20-22 Kasım 2025',
+            summary: 'MTT MTAL tanıtım günleri 20-22 Kasım tarihleri arasında gerçekleştirilecek.',
+            image: 'images/wwp1.png',
+            content: 'Mehmet Tuğrul Tekbulut Mesleki ve Teknik Anadolu Lisesi olarak 20-22 Kasım 2025 tarihleri arasında, yeni dönem kayıtları öncesinde okulumuzu ve ROBOGEB projesi kapsamındaki atölye çalışmalarımızı tanıtmak üzere "Okul Tanıtım Günleri" düzenlenecektir. Tüm veli ve öğrencilerimizi okulumuza bekliyoruz.'
+        },
+        {
+            id: 'sponsorluk',
+            title: 'ROBOGEB Sponsorluk Duyurusu',
+            date: '18 Ekim 2025',
+            summary: 'Yeni sponsorlarımız ve destekçilerimiz açıklandı.',
+            image: 'images/wwp1.png',
+            content: 'ROBOGEB projesi ve yarışmalarına destek veren yeni paydaşlarımız ve sponsorlarımız açıklandı. Projemizin büyümesine ve daha çok öğrenciye ulaşmasına katkıda bulunan tüm kurum ve kuruluşlara teşekkür ederiz. Sponsor logolarını ana sayfamızın en altındaki Paydaşlar bölümünde görebilirsiniz.'
+        },
+        {
+            id: 'teknoloji',
+            title: 'Teknoloji ve Heyecanın Buluşma Noktası',
+            date: '01 Ekim 2025',
+            summary: 'Çizgi izleyen robot yarışmaları, teknoloji ve mühendislik tutkunları için heyecan verici bir etkinlik olarak öne çıkıyor.',
+            image: 'images/wwp1.png',
+            content: 'Gelenekselleşen çizgi izleyen robot yarışmalarımız, sadece bir rekabet alanı değil, aynı zamanda teknoloji ve mühendislik tutkunları için bir buluşma noktası olmaya devam ediyor. Bu yılki yarışmalarda da yaratıcılığın ve hızın sınırları zorlanacak.'
+        },
+        {
+            id: 'usulleri',
+            title: 'Yarışma Usulleri Güncellendi',
+            date: '05 Eylül 2025',
+            summary: 'MİKRO SUMO: Grup maçları sonucunda 3 gruptan 6 takım tekrar lig usulü ile 2 gruba ayrılır.',
+            image: 'images/wwp1.png',
+            content: 'Bu yılki MİKRO SUMO kategorisi için yarışma usulleri güncellenmiştir. Buna göre; Grup maçları sonucunda toplam 6 takım tekrar lig usulü ile 2 gruba ayrılacak ve final aşamasına geçiş bu gruplardaki derecelere göre yapılacaktır. Tüm kurallar için lütfen Yarışma Kılavuzunun son versiyonunu kontrol ediniz.'
+        }
+    ];
+
+    const listContainer = document.getElementById('announcementsList');
+    const detailContainer = document.getElementById('announcementDetail');
+
+    function renderList() {
+        announcementsData.forEach(item => {
+            const article = document.createElement('article');
+            article.className = 'announcement-item';
+            article.setAttribute('data-id', item.id);
+            article.innerHTML = `
+                <h4>${item.title}</h4>
+                <p><strong>Tarih:</strong> ${item.date}</p>
+            `;
+            article.addEventListener('click', () => showDetails(item.id));
+            listContainer.appendChild(article);
+        });
+    }
+
+    function showDetails(id) {
+        const item = announcementsData.find(a => a.id === id);
+
+        document.querySelectorAll('.announcement-item').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.announcement-item[data-id="${id}"]`).classList.add('active');
+
+        detailContainer.innerHTML = `
+            <img src="${item.image}" alt="${item.title}" class="detail-image">
+            <h3 class="detail-title">${item.title}</h3>
+            <span class="detail-date">${item.date}</span>
+            <p class="detail-content">${item.content}</p>
+        `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderList();
+        if (announcementsData.length > 0) {
+            showDetails(announcementsData[0].id);
+        }
+    });
+
+    document.querySelector('nav a[href="error503.html"]').setAttribute('href', 'duyurular.html');
+</script>
+{% endblock %}
