@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %}Takımım{% endblock %}
+
+{% block head %}
+<style>
+/* Ana kutu */
+.members-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #f5f7fa;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Üst bilgi alanı */
+.team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.team-header h1 {
+    color: #0A7BC2;
+    margin: 0;
+}
+
+.team-actions button {
+    padding: 10px 16px;
+    background-color: #0A7BC2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 10px;
+    transition: 0.2s;
+}
+
+.team-actions button:hover {
+    background-color: #065a8c;
+}
+
+/* Üye listesi */
+.members-container h2 {
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0A7BC2;
+    padding-bottom: 5px;
+}
+
+.members-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.members-container ul li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.members-container ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.members-container ul li img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Üye info alanı */
+.member-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-name {
+    font-weight: 600;
+    color: #0A7BC2;
+}
+
+.member-email {
+    font-size: 13px;
+    color: #666;
+}
+
+.member-role {
+    font-size: 13px;
+    font-style: italic;
+    color: #888;
+}
+
+/* Sil butonu */
+.remove-btn {
+    background-color: #d9534f;
+    padding: 6px 10px;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.remove-btn:hover {
+    background-color: #b93f3a;
+}
+
+/* Modal */
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 {
+    margin-bottom: 15px;
+    color: #0A7BC2;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.modal-box button {
+    width: 100%;
+    background-color: #0A7BC2;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-box button:hover {
+    background-color: #065a8c;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="members-container">
+
+    <!-- Takım başlık bölümü -->
+    <div class="team-header">
+        <h1>{{ team.name }}</h1>
+
+        <div class="team-actions">
+            <button onclick="openModal()">Üye Ekle</button>
+            <button onclick="window.location.href='{{ url_for('team.apply', team_id=team.id) }}'">
+                Başvuru Yap
+            </button>
+        </div>
+    </div>
+
+    <!-- Üye listesi -->
+    <h2>Takım Üyeleri</h2>
+    <ul>
+        {% for member in team.members %}
+        <li>
+            <img src="{{ url_for('static', filename=member.user.pfp) }}" width="48" height="48">
+
+            <div class="member-info">
+                <span class="member-name">{{ member.user.get_fullname() }}</span>
+                <span class="member-email">{{ member.user.email }}</span>
+                <span class="member-role">{{ member.role.value }}</span>
+            </div>
+
+            <!-- Üye silme -->
+            <form action="{{ url_for('team.remove_member', team_id=team.id, member_id=member.id) }}" method="post">
+                <button class="remove-btn">Kaldır</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Üye ekleme modal -->
+<div class="modal-bg" id="addMemberModal">
+    <div class="modal-box">
+        <h3>Üye Ekle</h3>
+
+        <!-- backend send -->
+        <form action="{{ url_for('team.add_member', team_id=team.id) }}" method="post">
+            <input type="email" name="email" placeholder="E-posta" required>
+            <button type="submit">Ekle</button>
+        </form>
+
+        <button onclick="closeModal()" style="margin-top:10px;background:#999;">Kapat</button>
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("addMemberModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("addMemberModal").style.display = "none";
+}
+</script>
+
+{% endblock %}
