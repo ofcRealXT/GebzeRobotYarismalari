@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+{% endblock %}
+
+{% block title %}Anasayfa{% endblock %}
+
+{% block content %}
+
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Gebze Robot Yarışmaları</h1>
+        <a href="{{ url_for('team.create') }}" class="hero-btn">Başvurun!</a>
+    </div>
+
+    <div class="hero-cards">
+        <div class="hero-card">
+            <div class="icon">📍</div>
+            <h3>Proje Aşaması 1.</h3>
+            <p>
+                97'si 2020-2021 eğitim öğretim yılında olmak üzere 2023 yılı itibariyle 
+                fiziki durumu uygun olan tüm okullara ROBOGEB Robotik Kodlama Atölyesi 
+                kurulacaktır.
+            </p>
+        </div>
+
+        <div class="hero-card">
+            <div class="icon">📍</div>
+            <h3>Proje Aşaması 2.</h3>
+            <p>
+                Hazırlanacak müfredat doğrultusunda kurulum yapılan okullardan başlanmak 
+                üzere eğitmen eğitimleri verilecektir.
+            </p>
+        </div>
+
+        <div class="hero-card">
+            <div class="icon">📍</div>
+            <h3>Proje Aşaması 3.</h3>
+            <p>
+                Öğrencilere proje bazlı, uygulama ağırlıklı robotik kodlama eğitimleri 
+                verilecektir. Öğrencilerin eğitim süreci takip edilecektir.
+            </p>
+        </div>
+    </div>
+</section>
+
+<main class="container">
+    <section class="hero reveal">
+        <div class="left">
+            <h1>Kodla, Tasarla, Yarış — Geleceğin Teknolojisine Katıl</h1>
+            <p>ROBOGEB yarışmaları; robotik, yapay zeka, oyun geliştirme ve yaratıcı teknoloji atölyeleriyle gençleri buluşturuyor.</p>
+            <div class="cta">
+                <a class="btn" href="{{ url_for('team.create') }}">Takımını Kur</a>
+                <a class="btn alt" href="#">Daha Fazla Bilgi</a>
+            </div>
+        </div>
+        <aside class="countdown">
+            <h3>YARIŞMAYA KALAN SÜRE</h3>
+            <div class="time" id="countdown">
+                <div>
+                    <div style="font-size:28px" id="days">00</div>
+                    <div style="font-size:12px">Gün</div>
+                </div>
+                <div>
+                    <div style="font-size:28px" id="hours">00</div>
+                    <div style="font-size:12px">Saat</div>
+                </div>
+                <div>
+                    <div style="font-size:28px" id="minutes">00</div>
+                    <div style="font-size:12px">Dakika</div>
+                </div>
+                <div>
+                    <div style="font-size:28px" id="seconds">00</div>
+                    <div style="font-size:12px">Saniye</div>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section id="yarismalar" class="reveal">
+        <h2 style="margin:18px 0;font-size:20px;color:var(--dark)">Öne Çıkan Yarışmalar</h2>
+        <div class="cards">
+            {% for ct in cts %}
+                <a href="{{ url_for('categories.ct_detail', ct_id=ct.id) }}">
+                    <article class="card">
+                        <img src="{{ url_for('static', filename=ct.banner) }}" alt="">
+                        <h4>{{ ct.name }}</h4>
+                        <p>{{ ct.description }}</p>
+                    </article>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="yarismalar" class="reveal">
+    </section>
+
+    <section class="event-guidance-section reveal">
+        <div class="guidance-grid">
+            <div class="calendar-box">
+                <div class="calendar-header">
+                    <div class="title">
+                        <span style="color:#009dff; font-size:24px;">▶</span> ETKİNLİK TAKVİMİ
+                    </div>
+                    <span>‹ Kasım 2025 ›</span>
+                </div>
+                <div class="calendar-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PZT</th>
+                                <th>SAL</th>
+                                <th>ÇAR</th>
+                                <th>PER</th>
+                                <th>CUM</th>
+                                <th>CMT</th>
+                                <th>PAZ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>1</td><td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td><td>11</td><td class="today">12</td><td>13</td><td>14</td><td>15</td><td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+                            </tr>
+                            <tr>
+                                <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div class="guidance-item">
+                    <div class="guidance-icon">
+                        <img src="{{ url_for('static', filename='web/file-doc-solid-96.png') }}" alt="Kılavuz İkonu">
+                    </div>
+                    <div class="guidance-text">
+                        <h3>YARIŞMA KILAVUZU</h3>
+                        <p>Yarışma ile ilgili tüm detaylı bilgiler ve şartnameye bu dokümandan ulaşabilirsiniz.</p>
+                        <a href="{{ url_for('home.download_guide') }}" class="guidance-link">YARIŞMA KILAVUZUNU İNDİRİN →</a>
+                    </div>
+                </div>
+
+                <div class="guidance-item">
+                    <div class="results-content">
+                        <div class="guidance-text" style="text-align:left;">
+                            <p style="margin-bottom:20px;">Yarışma ile ilgili tüm detaylı bilgiler ve şartnameye bu dokümandan ulaşabilirsiniz.</p>
+                            <a href="#" class="results-link">YARIŞMA SONUÇLARI →</a>
+                        </div>
+                        <img src="{{ url_for('static', filename='web/roboarm.png') }}" alt="Robot Kolu">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="duyurular" class="news-section reveal">
+    </section>
+
+    <section id="duyurular" class="news-section reveal">
+        <img src="{{ url_for('static', filename='web/background.png') }}" alt="duyurular görseli">
+        <div class="news-content">
+            <div class="news-header">
+                <h3>Duyurular ve Haberler</h3>
+                <a href="{{ url_for('home.announcements') }}" class="read-all">TÜMÜNÜ OKU →</a>
+            </div>
+            <div class="news-list">
+                <article>
+                    <h4>ROBOGEB 2026 Başvuruları Başladı</h4>
+                    <p>11 Eylül 2025 tarihinde başvurular açıldı...</p>
+                </article>
+                <article>
+                    <h4>Yeni Atölye: Yapay Zeka Günü</h4>
+                    <p>Öğrenciler için özel hazırlanan atölye etkinliği 5 Aralık'ta yapılacak.</p>
+                </article>
+                <article>
+                    <h4>Okul Tanıtım Günleri</h4>
+                    <p>MTT MTAL tanıtım günleri 20-22 Kasım tarihleri arasında gerçekleştirilecek.</p>
+                </article>
+                <article>
+                    <h4>ROBOGEB Sponsorluk Duyurusu</h4>
+                    <p>Yeni sponsorlarımız ve destekçilerimiz açıklandı.</p>
+                </article>
+                <article>
+                    <h4>Teknoloji ve Heyecanın Buluşma Noktası</h4>
+                    <p>Çizgi izleyen robot yarışmaları, teknoloji ve mühendislik tutkunları için heyecan verici bir etkinlik olarak öne çıkıyor.</p>
+                </article>
+                <article>
+                    <h4>Yarışma Usulleri</h4>
+                    <p>MİKRO SUMO: Grup maçları sonucunda 3 gruptan 6 takım tekrar lig usulü ile 2 gruba ayrılır.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="sss" class="reveal" style="margin-top:40px">
+        <h2 style="text-align:center;color:var(--dark);margin-bottom:24px">EN ÇOK SORULAN SORULAR</h2>
+        <div class="faq-container">
+            <div class="faq-item active">
+                <button class="faq-question">ROBOGEB Projesine nasıl katılabilirim?</button>
+                <div class="faq-answer">ROBOGEB Robotik Kodlama Projesi 2023 yılı itibariye 325 okul ve 5 yetişkin eğitim merkezinde hizmet vermektedir. Sitemizde bu merkezlerin yerini görebilirsiniz. Okullar sadece kayıtlı öğrencilerine hizmet vermekte olup yetişkin eğitim merkezlerinde açılan atölye ve eğitimlere katılabilirsiniz. Bütün eğitimler ücretsizdir.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Yarışmalara katılmak için bir ücret alınıyor mu?</button>
+                <div class="faq-answer">Hayır, yarışmalara katılmak tamamen ücretsizdir!</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB Robotik Kodlama atölyesine çocuğumu gönderebilir miyim?</button>
+                <div class="faq-answer">Evet, ROBOGEB Robotik Kodlama Projesi kurulu olan okulların kayıtlı öğrencileri eğitim alabilir.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB Projesi Eğitmen eğitimine nasıl katılırım?</button>
+                <div class="faq-answer">Proje kapsamında atölye kurulumu tamamlanan okulların MEB tarafından belirlenen öğretmenlerine eğitim verilmektedir. Ko-mek kurs merkezlerinde bulunan yetişkin eğitiminden faydalanabilirsiniz.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Okulumda ROBOGEB Robotik Kodlama Projesi yok nasıl kurdurabilirim?</button>
+                <div class="faq-answer">Okulumda ROBOGEB Robotik Kodlama Projesi yok nasıl kurdurabilirim?</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">ROBOGEB yarışmalarına katılabilir miyim?</button>
+                <div class="faq-answer">ROBOGEB atölyelerinin kurulu olduğu her okul yarışmalarımızın doğal katılımcısıdır. Atölyelerimizin olmadığı okullar ROBOGEB yarışmalarının diğer kategorilerinin şartlarını sağlıyorlarsa başvuru yapabilirler.</div>
+            </div>
+        </div>
+    </section>
+</main>
+
+    <section class="slider-section reveal">
+        <h2 style="text-align:center;color:var(--dark);margin-bottom:30px;font-size: 28px;">GALERI: ROBOGEB'DEN GORUNTULER</h2>
+        
+        <div class="slider-container" id="auto-slider">
+            <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Robotik Yarisma Alani">
+                <div class="slider-caption">Yarisma Alani Hazirlik</div>
+            </div>
+            <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Ogrenci Takimlari">
+                <div class="slider-caption">Heyecanli Takimlar</div>
+            </div>
+            <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Mini Sumo Karsilasmasi">
+                <div class="slider-caption">Mini Sumo Maclari</div>
+            </div>
+            <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Odul Toreni">
+                <div class="slider-caption">Odul Toreni</div>
+            </div>
+             <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Egitim Atolyesi">
+                <div class="slider-caption">Kodlama Atolyesi</div>
+            </div>
+             <div class="slider-card">
+                <img src="{{ url_for('static', filename='web/wwp1.png') }}" alt="Cizgi Izleyen Robotlar">
+                <div class="slider-caption">Cizgi Izleyen Hizi</div>
+            </div>
+        </div>
+    </section>
+
+<section class="partners-section reveal">
+    <div class="container">
+        <h2>PAYDAŞLAR</h2>
+        <div class="partners-container">
+            <div class="partners-logos">
+                <a href="https://mehmettugrultekbulutmtal.meb.k12.tr/" target="_blank" title="Mehmet Tugrul Tekbulut MTAL">
+                    <img src="{{ url_for('static', filename='web/okullogo.png') }}" alt="Mehmet Tugrul Tekbulut MTAL Logo">
+                </a>
+                
+                <a href="https://www.meb.gov.tr/" target="_blank" title="Milli Egitim Bakanlığı">
+                    <img src="{{ url_for('static', filename='web/meb.png') }}" alt="Milli Egitim Bakanlığı Logo">
+                </a>
+
+                <a href="http://kocaeli.gov.tr/" target="_blank" title="Kocaeli Valiliği">
+                    <img src="{{ url_for('static', filename='web/kocaeli.png') }}" alt="Kocaeli Valiliği Logo">
+                </a>
+
+                <a href="https://gebzeto.org.tr/" target="_blank" title="Gebze Ticaret Odası">
+                    <img src="{{ url_for('static', filename='web/gto.png') }}" alt="Gebze Ticaret Odası">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
