@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 Yasaklı Sayfa | MTT RoboGeb</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/icon.w.robogeb') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+</head>
+<body>
+    <div class="glitch-container">
+        <div class="line-effect line-1"></div>
+        <div class="line-effect line-2"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <h1 class="error-code" data-text="403">403</h1>
+        <h2 class="title">YASAKLI SAYFA</h2>
+        <p class="message">Görüntüleyememeniz gereken bir sayfayla karşılaştınız. Lütfen daha sonra tekrar deneyin veya ana sayfaya geri dönün.</p>
+        <div class="access-info">
+            <p>Erişim: <span id="access-status">REDDEDİLDİ</span></p>
+            <p>İletişim Portu: <span id="contact-port">KAPALI</span></p>
+        </div>
+        <a href="{{ url_for('home.homepage') }}" class="return-button">ANA SAYFAYA DÖN</a>
+    </div>
+    <script src="{{ url_for('static', filename='js/error.js') }}"></script>
+</body>
+</html>
