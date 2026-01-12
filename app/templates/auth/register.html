@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol | MTT RoboGeb</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/iconw.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>    
+    <div class="signup-container">
+        <div class="sidebar" id="sidebar">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div id="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+           {% endwith %}
+            <div class="background-overlay"></div>
+            <div class="sidebar-content">
+                <img src="{{ url_for('static', filename='web/actlogotryout.png') }}" alt="ROBOGEB Logo" class="sidebar-logo">
+                <p>Aramıza Katılın!</p>
+                <p class="tagline">Sadece bir kayıt değil, teknoloji ve robotik geleceğe ilk adımınızı atın.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/mttbilisimprojelisesi" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@kodadmtt1281" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/bilisimlisesi" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-area" id="form-area">
+            <h2>Yeni Hesap Oluştur</h2>
+            <form action="{{ url_for('auth.register') }}" method="POST">
+                <div class="input-group-inline">
+                    <div class="input-field">
+                        <input type="text" name="firstname" placeholder="İsim" required>
+                        <i class="fas fa-user icon-right"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="lastname" placeholder="Soyisim" required>
+                        <i class="fas fa-user icon-right"></i>
+                    </div>
+                </div>
+
+                <div class="role-selector">
+                    <button type="button" class="role-button active">Öğrenci</button>
+                    <button type="button" class="role-button">Mentor</button>
+                </div>
+                <input type="hidden" name="role" id="role" value="student">
+
+                <div class="input-field">
+                    <input type="email" name="email" placeholder="Email Adresi" required>
+                    <i class="fas fa-envelope icon-right"></i>
+                </div>
+
+                <div class="input-field">
+                    <input type="password" name="password" placeholder="Şifre" id="password" autocomplete="new-password" required>
+                    <i class="fas fa-eye-slash icon-right toggle-password"></i>
+                    <div class="password-strength-container">
+                        <div class="password-strength-bar" id="strength-bar"></div>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <input type="password" placeholder="Şifre Tekrar" autocomplete="new-password" required>
+                    <i class="fas fa-eye-slash icon-right toggle-password"></i>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Kullanım Koşullarını ve Gizlilik Politikasını okudum ve kabul ediyorum.</label>
+                </div>
+
+                <button type="submit" class="submit-button">Kayıt Ol</button>
+                
+                <div class="separator">
+                    <span>VEYA</span>
+                </div>
+                
+                <button type="button" class="google-button">
+                    <i class="fab fa-google"></i> Google ile Kayıt Ol
+                </button>
+
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        window.onload = function() {
+            document.getElementById('sidebar').classList.add('animated');
+            document.getElementById('form-area').classList.add('animated');
+        };
+    
+        document.querySelectorAll('.role-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.role-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.previousElementSibling; 
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                }
+            });
+        });
+        
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strength-bar');
+
+        if (passwordInput && strengthBar) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+
+                if (password.length >= 8) {
+                    strength += 1;
+                }
+                
+                if (password.match(/[A-Z]/)) {
+                    strength += 1;
+                }
+                
+                if (password.match(/[0-9]/)) {
+                    strength += 1;
+                }
+
+                if (password.match(/[^a-zA-Z0-9\s]/)) {
+                    strength += 1;
+                }
+
+                const strengthContainer = strengthBar.closest('.password-strength-container');
+                if (password.length > 0) {
+                    strengthContainer.classList.add('visible');
+                } else {
+                    strengthContainer.classList.remove('visible');
+                }
+
+                const strengthPercentage = (strength / 4) * 100;
+                strengthBar.style.width = strengthPercentage + '%';
+                
+                strengthBar.className = 'password-strength-bar';
+                if (strength === 1) {
+                    strengthBar.classList.add('strength-weak');
+                } else if (strength === 2 || strength === 3) {
+                    strengthBar.classList.add('strength-medium');
+                } else if (strength === 4) {
+                    strengthBar.classList.add('strength-strong');
+                }
+            });
+        }
+
+        function setRole(selectedRole) {
+            document.getElementById("role").value = selectedRole;
+
+            document.querySelectorAll('.role-button').forEach(button => {
+                button.classList.remove('active');
+            });
+        }
+
+        function handleFlashMessages(delaySeconds) {
+            const flashContainer = document.getElementById("flash-container");
+            if (flashContainer) {
+                setTimeout(() => {
+                    flashContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        flashContainer.remove();
+                    }, 500);
+                }, delaySeconds * 1000);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            handleFlashMessages(4);
+        })
+    </script>
+</body>
+</html>
