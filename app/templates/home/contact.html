@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}İletişim{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    
+    <h1 class="section-title reveal">BİLGİ ALMAK İÇİN BİZİMLE İLETİŞİME GEÇEBİLİRSİNİZ</h1>
+    
+    <section class="contact-details-grid reveal">
+        <div class="contact-item">
+            <h3>Adres</h3>
+            <p>Kirazpınar Mahallesi Yeni Bağdat Caddesi No.939 Gebze/KOCAELİ</p>
+        </div>
+        
+        <div class="contact-item">
+            <h3>Telefon</h3>
+            <p>(262) 606 0490</p>
+        </div>
+        
+        <div class="contact-item">
+            <h3>E-mail</h3>
+            <p>robogeb.info@gmail.com</p>
+        </div>
+    </section>
+
+    <section class="map-container reveal">
+        <iframe src="https://www.google.com/maps/d/u/4/embed?mid=1PyfjnwrgsGWP0BGDf5U1YlDA4ZmU_OE&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <section class="partners-section reveal">
+        <h2>PAYDAŞLARIMIZ</h2>
+        <div class="partners-container">
+            <div class="partners-logos">
+                <a href="https://mehmettugrultekbulutmtal.meb.k12.tr/" target="_blank">
+                    <img src="{{ url_for('static', filename='web/okullogo.png') }}" alt="MTT MTAL Logo">
+                </a>
+                <a href="https://www.meb.gov.tr/" target="_blank">
+                    <img src="{{ url_for('static', filename='web/meb.png') }}" alt="Milli Eğitim Bakanlığı Logo">
+                </a>
+                <a href="http://kocaeli.gov.tr/" target="_blank">
+                    <img src="{{ url_for('static', filename='web/kocaeli.png') }}" alt="Kocaeli Valiliği Logo">
+                </a>
+                <a href="https://gebzeto.org.tr/" target="_blank" title="Gebze Ticaret Odası">
+                    <img src="{{ url_for('static', filename='web/gto.png') }}" alt="Gebze Ticaret Odası">
+                </a>
+                <a href="https://www.logo.com.tr/" target="_blank" title="Logo Yazılım">
+                    <img src="{{ url_for('static', filename='web/logoYazilim.png') }}" alt="Logo Yazılım">
+                </a>
+                <a href="https://www.gebze.bel.tr/" target="_blank" title="Gebze Belediyesi">
+                    <img src="{{ url_for('static', filename='web/gebzeBel.png') }}" alt="Gebze Belediyesi">
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
