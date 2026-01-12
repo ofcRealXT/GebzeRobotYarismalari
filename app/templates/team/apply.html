@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Başvuru Yap{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/team.css') }}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="apply-container">
+        <form action="{{ url_for('team.apply') }}" method="post">
+            <h2>Genel Takım Bilgileri</h2>
+            <input type="text" name="team_name" required placeholder="Takım ismi">
+
+            <select name="team_category" required>
+                <option value="MIKRO_SUMO">Mikro Sumo</option>
+                <option value="ROBOT_FUTBOLU">Robot Futbolu</option>
+                <option value="ROBOT_DANS">Robot Dans</option>
+                <option value="HIZLI_CIZGI">Hızlı Çizgi İzleyen</option>
+                <option value="ILERI_CIZGI">İleri Çizgi İzleyen</option>
+                <option value="TEMEL_CIZGI">Temel Çizgi</option>
+                <option value="HEDEFI_BUL">Hedefi Bul</option>
+                <option value="MINI_SUMO">Mini Sumo</option>
+                <option value="TOZKOPARAN">Toz Koparan</option>
+            </select>
+
+            <input type="text">
+        </form>
+    </div>
+</main>
