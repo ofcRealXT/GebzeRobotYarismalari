@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}E-Posta Doğrulama{% endblock %}
+
+{% block head %}
+<style>
+.verify-container {
+	max-width: 400px;
+	margin: 60px auto;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+	padding: 32px 24px;
+	text-align: center;
+}
+
+.verify-container h1 {
+	font-size: 2rem;
+	margin-bottom: 18px;
+	color: #2d3748;
+}
+
+.inp {
+	margin-bottom: 18px;
+}
+
+.inp input[type="text"] {
+	width: 40px;
+	height: 48px;
+	margin: 0 6px;
+	font-size: 1.5rem;
+	text-align: center;
+	border: 1px solid #cbd5e0;
+	border-radius: 8px;
+	background: #f7fafc;
+	transition: border-color 0.2s;
+}
+
+.inp input[type="text"]:focus {
+	border-color: #3182ce;
+	outline: none;
+	background: #fff;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 12px 0;
+	background: #3182ce;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: background 0.2s;
+	margin-top: 10px;
+}
+
+.submit-btn:hover {
+	background: #2563eb;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('auth.verify_email') }}" method="post">
+    <div class="verify-container">
+        <h1>Doğrulama</h1>
+        <div class="inp">
+            <div style="display: flex; justify-content: center;">
+                <input type="text" maxlength="1" name="code1" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" name="code2" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" name="code3" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" name="code4" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" name="code5" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" name="code6" required autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+                <input type="hidden" name="full_code" id="full_code">
+            </div>
+            <button class="submit-btn" type="submit">Doğrula</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let inputs = [...document.querySelectorAll('.inp input[type="text"]')];
+    inputs.forEach((element, idx) => {
+        element.addEventListener('keyup', (e) => {
+            if (element.value.length === 1 && idx + 1 < inputs.length) {
+                inputs[idx + 1].focus();
+            }
+            if (e.key === "Backspace" && element.value === "" && idx > 0) {
+                inputs[idx - 1].focus();
+            }
+        });
+        element.addEventListener('input', (e) => {
+            element.value = element.value.replace(/[^0-9]/g, '');
+        });
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        let code = inputs.map(input => input.value).join('');
+        document.getElementById('full_code').value = code;
+        inputs.forEach(input => input.removeAttribute('name'));
+    });
+</script>
+{% endblock %}
