@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | Robogeb Admin Paneli</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='web/iconw.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>RoboGeb Admin Paneli</h1>
+        <p>Hoşgeldiniz, {{ current_user.firstname }}!</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('home.homepage') }}">Anasayfa</a>
+        <a href="{{ url_for('admin.manage_users') }}">Kullanıcılar</a>
+        <a href="{{ url_for('admin.make_announcement') }}">Duyurular</a>
+        <a href="{{ url_for('admin.manage_teams') }}">Takımlar</a>
+        <a href="{{ url_for('admin.manage_categories') }}">Kategoriler</a>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
