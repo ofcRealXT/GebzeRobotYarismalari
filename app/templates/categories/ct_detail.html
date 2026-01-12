@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ct.name }}{% endblock %}
+
+{% block head %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="banner-container">
+    <img src="{{ url_for('static', filename=ct.banner) }}" height="800" width="100%">
+</div>
+<div class="info-container">
+    <h1>{{ ct.name }}</h1>
+    <p>{{ ct.description }}</p>
+
+    {% if current_user.role.value == "participant" %}
+        <form action="{{ url_for('team.apply') }}" method="post">
+            <input type="hidden" name="{{ ct.name }}">
+            <select name="select_team" id="select_team">
+                <option disabled selected>Takım Seçin</option>
+                {% for team in teams %}
+                    <option value="team.id">{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    {% endif %}
+
+    <a href="{{ url_for('categories.download_ct_guide') }}"></a>
+</div>
+{% endblock %}
